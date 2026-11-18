@@ -1,0 +1,20 @@
+{
+  "name": "relevan",
+  "interface": {
+    "displayName": "Relevan"
+  },
+  "plugins": [
+    {
+      "name": "relevan",
+      "source": {
+        "source": "local",
+        "path": "./plugins/relevan"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

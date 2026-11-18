@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "relevan": {
+      "type": "http",
+      "url": "https://api.relevan.dev/v1/mcp"
+    }
+  }
+}

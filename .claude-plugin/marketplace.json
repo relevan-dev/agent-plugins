@@ -1,0 +1,17 @@
+{
+  "name": "relevan",
+  "owner": {
+    "name": "Relevan"
+  },
+  "metadata": {
+    "description": "The Relevan agent plugin"
+  },
+  "plugins": [
+    {
+      "name": "relevan",
+      "source": "./plugins/relevan",
+      "description": "Search that learns from feedback. Create a Relevan index, load documents, search, and send feedback through the hosted Relevan MCP server.",
+      "license": "Apache-2.0"
+    }
+  ]
+}

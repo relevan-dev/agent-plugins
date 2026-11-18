@@ -1,0 +1,18 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "relevan",
+  "description": "Search that learns from feedback. Create a Relevan index, load documents, search, and send feedback through the hosted Relevan MCP server.",
+  "author": {
+    "name": "Relevan",
+    "url": "https://relevan.dev"
+  },
+  "homepage": "https://docs.relevan.dev",
+  "repository": "https://github.com/relevan-dev/agent-plugins",
+  "keywords": [
+    "search",
+    "relevance",
+    "mcp",
+    "feedback"
+  ],
+  "license": "Apache-2.0"
+}
