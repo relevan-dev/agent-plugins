@@ -74,4 +74,4 @@ The plugin has no version number. An update brings the newest commit of this rep
 
 ## License
 
-Apache-2.0. See [LICENSE](LICENSE).
+Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
