@@ -2,7 +2,10 @@
   "mcpServers": {
     "relevan": {
       "type": "http",
-      "url": "https://api.relevan.dev/v1/mcp"
+      "url": "https://api.relevan.dev/v1/mcp",
+      "headers": {
+        "X-Relevan-Integration": "claude-plugin/1"
+      }
     }
   }
 }
