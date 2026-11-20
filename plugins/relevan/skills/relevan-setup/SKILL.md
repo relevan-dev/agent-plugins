@@ -34,6 +34,8 @@ Follow this skill to draft and deploy the mapping: https://api.relevan.dev/skill
 
 ## 5. Upload the documents
 
+Before the first upload, follow the storage cap rule in `https://api.relevan.dev/llms.txt`. It says how to read the storage that remains, estimate the size of the corpus, and warn the user. A 402 response with `code: "storage_limit_exceeded"` means that the request does not fit in the storage that remains. Do not retry it.
+
 Call `POST https://api.relevan.dev/v1/{orgId}/indexes/{indexName}/documents/_bulk` with a maximum of 1000 documents in each request:
 
 ```json
