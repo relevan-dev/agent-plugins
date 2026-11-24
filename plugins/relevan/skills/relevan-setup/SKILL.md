@@ -32,6 +32,15 @@ Follow this skill before you design the mapping: https://api.relevan.dev/skills/
 
 Follow this skill to draft and deploy the mapping: https://api.relevan.dev/skills/relevan-mapping/SKILL.md
 
+Relevan applies the mapping to the index after the `POST` returns. Wait until it is applied before you upload documents. A document that arrives first can give a new field the wrong type for the life of the index.
+
+1. Keep the `id` of the `POST` response. Call `GET https://api.relevan.dev/v1/{orgId}/indexes/{indexName}/mappings/{id}` every 10 seconds.
+2. In the first 30 seconds, a `404` or a `null` `deployment` means that the revision is not visible yet. Keep polling. A `404` after 30 seconds means that the `id` is wrong. Stop, and check the `id`.
+3. Read `deployment.status`. Upload documents only when it is `succeeded`.
+4. If it is `failed`, do not upload. Give the user `deployment.failureReason`. To retry one time, `POST` the same mapping again. Keep `deployment.createdAt` of that response. A poll with an older `createdAt` shows the failed deployment, not the retry. Keep polling.
+5. If it is `canceled`, a newer deployment replaced it. Do not upload, and tell the user.
+6. If the status is not `succeeded` after 10 minutes, stop and tell the user. Do not upload.
+
 ## 5. Upload the documents
 
 Before the first upload, follow the storage cap rule in `https://api.relevan.dev/llms.txt`. It says how to read the storage that remains, estimate the size of the corpus, and warn the user. A 402 response with `code: "storage_limit_exceeded"` means that the request does not fit in the storage that remains. Do not retry it.
