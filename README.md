@@ -9,7 +9,7 @@ The skills:
 - `relevan-setup`: Set up Relevan search from the start: authenticate, create an index, load documents, run the first search, and send the first feedback. Use when a user asks you to add Relevan search to a product.
 - `relevan-ranking-signals`: Find the data that tells Relevan which result is the best one, such as prices, sales, or activity, and add it to each document. Use before you design a Relevan mapping.
 - `relevan-mapping`: Draft and deploy a RelevanMapping from a sample of documents. Use when a Relevan index has no mapping, or when the documents get new fields.
-- `relevan-feedback`: Send click, conversion, and llm_judgment feedback to Relevan after a search, so the ranking gets better. Use when you build search into an app, or when an agent acts on a search result.
+- `relevan-feedback`: Send search_judgment, click, conversion, and llm_judgment feedback to Relevan after a search. Relevan trains the ranking of the index from it. Use when you build search into an app, or when an agent acts on a search result.
 
 <!-- Setup video: replace this comment with the link to the 3-minute setup video. -->
 
@@ -70,6 +70,7 @@ The plugin has no version number. An update brings the newest commit of this rep
 ## Learn more
 
 - Docs: https://docs.relevan.dev
+- Get your data in: https://docs.relevan.dev/guides/get-your-data-in
 - MCP server guide: https://docs.relevan.dev/guides/mcp-server
 
 ## License

@@ -1,6 +1,6 @@
 ---
 name: relevan-feedback
-description: "Send click, conversion, and llm_judgment feedback to Relevan after a search, so the ranking gets better. Use when you build search into an app, or when an agent acts on a search result."
+description: "Send search_judgment, click, conversion, and llm_judgment feedback to Relevan after a search. Relevan trains the ranking of the index from it. Use when you build search into an app, or when an agent acts on a search result."
 ---
 
 # Relevan feedback

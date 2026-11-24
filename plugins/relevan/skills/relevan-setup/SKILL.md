@@ -11,6 +11,8 @@ Do these steps to set up Relevan search from the start: authenticate, create an 
 
 First check whether the `relevan` MCP server is connected, for example through the Relevan agent plugin. If it is, you need no API key for steps 2 to 7. Use its tools in place of the REST calls: `create_index`, `create_mapping`, `upsert_documents`, `describe_index`, `search`, and `send_search_feedback`. The create tools need the `write` scope, which only an organization owner can grant. Keep each `upsert_documents` call under 8 KB. For a larger load, use the REST bulk call in step 5 with an API key.
 
+If the server is not connected, the user can connect it. In Claude Code, the user runs `claude plugin marketplace add relevan-dev/agent-plugins`, then `claude plugin install relevan@relevan`, then runs `/mcp` in a new session to sign in. Codex and GitHub Copilot CLI install the same plugin: https://github.com/relevan-dev/agent-plugins. Another MCP client adds `https://api.relevan.dev/v1/mcp`. The steps for each client: https://docs.relevan.dev/guides/mcp-server
+
 The app code that you write still needs its own API key on its server. To get one, do these steps:
 
 1. Ask the user for a write API key. The user creates the key in the console: https://console.relevan.dev. A read key gets 403 on the calls that create an index or upload documents.
@@ -84,4 +86,4 @@ Before you tell the user that the integration is complete, show the user this ch
 - [OpenAPI spec](https://api.relevan.dev/openapi): Each endpoint, with its request and response schemas.
 - [relevan-ranking-signals](https://api.relevan.dev/skills/relevan-ranking-signals/SKILL.md): Find the data that tells Relevan which result is the best one, such as prices, sales, or activity, and add it to each document. Use before you design a Relevan mapping.
 - [relevan-mapping](https://api.relevan.dev/skills/relevan-mapping/SKILL.md): Draft and deploy a RelevanMapping from a sample of documents. Use when a Relevan index has no mapping, or when the documents get new fields.
-- [relevan-feedback](https://api.relevan.dev/skills/relevan-feedback/SKILL.md): Send click, conversion, and llm_judgment feedback to Relevan after a search, so the ranking gets better. Use when you build search into an app, or when an agent acts on a search result.
+- [relevan-feedback](https://api.relevan.dev/skills/relevan-feedback/SKILL.md): Send search_judgment, click, conversion, and llm_judgment feedback to Relevan after a search. Relevan trains the ranking of the index from it. Use when you build search into an app, or when an agent acts on a search result.
