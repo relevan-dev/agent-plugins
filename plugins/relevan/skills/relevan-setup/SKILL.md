@@ -9,7 +9,7 @@ Do these steps to set up Relevan search from the start: authenticate, create an 
 
 ## 1. Authenticate
 
-First check whether the `relevan` MCP server is connected, for example through the Relevan agent plugin. If it is, you need no API key for steps 2 to 7. Use its tools in place of the REST calls: `create_index`, `create_mapping`, `upsert_documents`, `describe_index`, `search`, and `send_search_feedback`. The create tools need the `write` scope, which only an organization owner can grant. Keep each `upsert_documents` call under 8 KB. For a larger load, use the REST bulk call in step 5 with an API key.
+First check whether the `relevan` MCP server is connected, for example through the Relevan agent plugin. If it is, you need no API key for steps 2 to 8. Use its tools in place of the REST calls: `create_index`, `create_mapping`, `upsert_documents`, `describe_index`, `search`, `send_search_feedback`, `list_diagnostics`, `acknowledge_diagnostic`, `resolve_diagnostic`, and `dismiss_diagnostic`. The create tools and the three diagnostic status tools need the `write` scope, which only an organization owner can grant. Keep each `upsert_documents` call under 8 KB. For a larger load, use the REST bulk call in step 5 with an API key.
 
 If the server is not connected, the user can connect it. In Claude Code, the user runs `claude plugin marketplace add relevan-dev/agent-plugins`, then `claude plugin install relevan@relevan`, then runs `/mcp` in a new session to sign in. Codex and GitHub Copilot CLI install the same plugin: https://github.com/relevan-dev/agent-plugins. Another MCP client adds `https://api.relevan.dev/v1/mcp`. The steps for each client: https://docs.relevan.dev/guides/mcp-server
 
@@ -65,6 +65,22 @@ Keep `searchContext.queryId` from the response. The feedback call needs it. Read
 
 Follow this skill to send feedback for each result that you act on: https://api.relevan.dev/skills/relevan-feedback/SKILL.md
 
+## 8. Check the diagnostics
+
+Relevan checks the data of each index after a document write, after a sitemap sync, and once a day. Each finding says what is wrong, gives the evidence, and gives the fix. Check the open findings before you tune the index or change the mapping. A data problem often looks like a ranking problem. The first run can start up to 1 hour after the first upload. If the list is empty before then, check again later.
+
+1. Call `GET https://api.relevan.dev/v1/{orgId}/indexes/{indexName}/diagnostics?status=open`, or the `list_diagnostics` MCP tool.
+2. Read `fixIn` of each finding. `source` means: change the system that sends the documents, as `suggestedFix.instruction` says. `index` means: make the API calls in `suggestedFix.calls`.
+3. When you start a fix, call `POST https://api.relevan.dev/v1/{orgId}/indexes/{indexName}/diagnostics/{id}/acknowledge`, or the `acknowledge_diagnostic` MCP tool. When the fix is done, call `.../resolve`, or `resolve_diagnostic`. If the next run finds the same problem, the finding opens again.
+4. If a finding does not apply to this index, call `.../dismiss`, or `dismiss_diagnostic`, with a `reason`: `not_applicable`, `intended`, `false_positive`, or `other` with a `note`. Relevan reads the reasons to improve the checks.
+5. Do not dismiss a real problem only because you cannot fix it. Leave it open, and tell the user.
+
+A dismissed finding stays dismissed until its evidence changes materially. It opens again when one of these occurs:
+
+- The severity rises.
+- The share of affected documents rises by 10 points or more.
+- For a finding with no total, the affected count at least doubles.
+
 ## Before you finish: the integration checklist
 
 Before you tell the user that the integration is complete, show the user this checklist. Mark each item as done or not done. If an item is not done, tell the user why. Do not mark an item as done if the user chose to skip it.
@@ -77,6 +93,7 @@ Before you tell the user that the integration is complete, show the user this ch
 - [ ] A click on a result sends a `click` event through a server route.
 - [ ] Each closing event sends a `conversion` event, if the product has one.
 - [ ] The UI shows filters for the filterable fields that users need.
+- [ ] Each open finding is fixed, dismissed with a reason, or reported to the user.
 
 ## Other Relevan documents
 
